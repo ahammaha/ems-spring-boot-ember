@@ -1,0 +1,24 @@
+
+<form>
+  Phone No : 
+  {{input type="text" value=phoneNo placeholder="Enter phone number"}}
+  <br>
+
+  Address : 
+  {{textarea value=address placeholder="Enter your address" cols="25" rows="4"}}
+  <br>
+
+  Languages Known :
+  {{input type="text" value=langKnown placeholder="Enter Languages Known"}}
+  <br>
+  
+  Date of birth : 
+  {{input type="text" value=dateOfBirth placeholder="dd-MM-yyyy"}}
+  <br>
+
+  <button {{action "saveEmpDetails"}}>Submit</button>
+  <br>
+
+</form>
+
+{{outlet}}
