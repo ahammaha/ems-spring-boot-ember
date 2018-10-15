@@ -39,4 +39,8 @@ public class EmployeeService {
 		return null;
 	}
 
+	public Employee updateEmployee(Employee employee) {
+		return employeeRepository.save(employee);
+	}
+
 }

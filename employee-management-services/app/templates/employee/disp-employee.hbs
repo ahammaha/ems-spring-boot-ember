@@ -1,8 +1,8 @@
-{{#link-to "employee"}}Back{{/link-to}}
-
+{{#link-to "employee.index"}}Back{{/link-to}}
 <article class="listing list-detail">
   <div class="heading-padding">
     <h3>{{model.firstName}} {{model.lastName}} : </h3>
+    <span>{{#link-to "employee.edit" model class="button right-most"}}Edit{{/link-to}}</span>
   </div>
   <div class="val-padding">
     Designation : {{print-designation model.designation}}

@@ -1,0 +1,66 @@
+<article class="listing list-detail">
+  {{#if empId}}
+    <h3>Enter the details</h3>
+  {{else}}
+    <h3>Edit the details</h3>
+  {{/if}}
+  <form>
+
+    <div class="val-padding">
+      First Name : 
+      {{input type="text" value=firstName placeholder="Enter first name"}}
+      {{#if model.errors}}
+        {{model.errors}}
+      {{/if}}
+    </div>
+
+    <div class="val-padding">
+      Last Name : 
+      {{input type="text" value=lastName placeholder="Enter last name"}}
+    </div>
+
+    <div class="val-padding">
+      Designation : 
+      <select onchange={{action "selectDesignation" value="target.value"}}>
+        <option disabled selected={{is-eq designation ""}}>
+          Select Designation
+        </option>
+        <option selected={{is-eq designation "SOFTWARE_DEVELOPER"}} value="SOFTWARE_DEVELOPER">
+          SOFTWARE DEVELOPER
+        </option>
+        <option value="INTERN" selected={{is-eq designation "INTERN"}}>
+          INTERN
+        </option>
+        <option value="PROJECT_MANAGER" selected={{is-eq designation "PROJECT_MANAGER"}}>
+          PROJECT MANAGER
+        </option>
+        <option value="HR" selected={{is-eq designation "HR"}}>
+          HR
+        </option>
+      </select>
+    </div>
+
+    <div class="val-padding">
+      Job Type : 
+      <select onchange={{action "selectEmpType" value="target.value"}}>
+        <option disabled selected={{is-eq empType ""}}>Select job type</option>
+        <option value="PERMENANT" selected={{is-eq empType "PERMENANT"}}>Permanent</option>
+        <option value="CONTRACT" selected={{is-eq empType "CONTRACT"}}>Contract</option>
+      </select>
+    </div>
+
+    <div class="val-padding">
+      email : {{input type="text" value=email placeholder="Enter email"}}
+    </div>
+
+    <div class="val-padding">
+      {{#if empId}}
+        <button class="button" {{action "saveEmployee"}}>Update Employee</button>
+      {{else}}
+        <button class="button" {{action "saveEmployee"}}>Add Employee</button>
+      {{/if}}
+    </div>
+
+  </form>
+</article>
+{{yield}}

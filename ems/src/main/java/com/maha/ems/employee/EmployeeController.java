@@ -41,6 +41,12 @@ public class EmployeeController {
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT,value="/employees/{id}")
+	public Employee updateEmployee(@RequestBody Employee employee,@PathVariable("id") int empId) {
+		employee.setid(empId);
+		return employeeService.updateEmployee(employee);
+	}
+	
+	@RequestMapping(method=RequestMethod.PUT,value="/employees/{id}/update-pwd")
 	public Employee updatePassword(@RequestBody Employee employee,@PathVariable("id") int empId) {
 		return employeeService.updatePassword(empId,employee);
 	}

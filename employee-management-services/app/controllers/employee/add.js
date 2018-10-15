@@ -6,14 +6,8 @@ export default Controller.extend({
 	email:"",
 	designation:"",
 	empType:"",
-	fnameErr:"",
+	eid:undefined,
 	actions:{
-		selectDesignation(val){
-			this.set("designation",val);
-		},
-		selectEmpType(val){
-			this.set("empType",val);
-		},
 		addEmployee(){
 			let self=this;
 			

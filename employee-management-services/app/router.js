@@ -11,6 +11,7 @@ Router.map(function() {
     this.route('add');
     this.route('disp-employee',{path: '/:employee_id'});
     this.route('emp-details');
+    this.route('edit',{path: '/:employee_id/edit'});
   });
 });
 
