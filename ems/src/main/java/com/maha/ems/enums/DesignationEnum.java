@@ -1,0 +1,5 @@
+package com.maha.ems.enums;
+
+public enum DesignationEnum {
+	INTERN, SOFTWARE_DEVELOPER, SENIOR_SOFTWARE_DEVELOPER, TESTER, DESIGNER, HR, PROJECT_MANAGER
+}

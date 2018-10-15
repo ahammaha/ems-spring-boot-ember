@@ -1,0 +1,42 @@
+<article class="listing list-detail">
+  <h3>Enter the details</h3>
+  <form>
+    <div class="val-padding">
+      First Name : 
+      {{input type="text" value=firstName placeholder="Enter first name"}}
+      {{#if model.errors}}
+        {{model.errors}}
+      {{/if}}
+    </div>
+    <div class="val-padding">
+      Last Name : 
+      {{input type="text" value=lastName placeholder="Enter last name"}}
+    </div>
+    <div class="val-padding">
+      Designation : 
+      <select onchange={{action "selectDesignation" value="target.value"}}>
+        <option disabled selected>Select Designation</option>
+        <option value="SOFTWARE_DEVELOPER">SOFTWARE DEVELOPER</option>
+        <option value="INTERN">INTERN</option>
+        <option value="PROJECT_MANAGER">PROJECT MANAGER</option>
+        <option value="HR">HR</option>
+      </select>
+    </div>
+    <div class="val-padding">
+      Job Type : 
+      <select onchange={{action "selectEmpType" value="target.value"}}>
+        <option disabled selected>Select job type</option>
+        <option value="PERMENANT">Permanent</option>
+        <option value="CONTRACT">Contract</option>
+      </select>
+    </div>
+    <div class="val-padding">
+      email : {{input type="text" value=email placeholder="Enter email"}}
+    </div>
+    <div class="val-padding">
+      <button class="button" {{action "addEmployee"}}>ADD Employee</button>
+    </div>
+  </form>
+</article>
+
+{{outlet}}

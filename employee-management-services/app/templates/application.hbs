@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="menu">
+    {{#link-to "index"}}
+      <h1>
+        <em>EMS</em>
+      </h1>
+    {{/link-to}}
+    <div class="links">
+      {{#link-to "employee" class="menu-about"}}
+        List Employees
+      {{/link-to}}
+      {{#link-to "employee.add" class="menu-contact"}}
+        Add Employee
+      {{/link-to}}
+    </div>
+  </div>
+  <div class="body">
+    {{outlet}}
+  </div>
+</div>
