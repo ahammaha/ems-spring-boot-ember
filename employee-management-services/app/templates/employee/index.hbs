@@ -1,0 +1,22 @@
+{{#if model.length}}
+  <h1>
+    Employees List : 
+  </h1>
+  <div>
+    {{#each model  as |emp|}}
+      <div>
+        {{#link-to "employee.disp-employee" emp}}
+          {{list-employees employee=emp}}
+        {{/link-to}}
+      </div>
+    {{/each}}
+  </div>
+{{else}}
+  <h1>
+    Employee list is empty. 
+  </h1>
+  <div>
+    {{#link-to "employee.add"}}Click here to add amployee{{/link-to}}    
+  </div>
+{{/if}}
+{{outlet}}

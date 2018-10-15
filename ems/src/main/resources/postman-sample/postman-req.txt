@@ -1,0 +1,26 @@
+{
+	"firstName" : "Maha",
+	"lastName" : "Shankar",
+	"password" : "12345678",
+	"empType" : "PERMENANT",
+	"email" : "maha@xyz.com",
+	"designation" : "SOFTWARE_DEVELOPER"
+}
+
+
+{
+	"phoneNo" : 7708277720,
+	"address" : "here's my addr",
+	"datOfBirth" : "02-01-1993",
+	"langKnown" : "Tamil"
+}
+
+
+{
+	"firstName" : "xxxxx",
+	"lastName" : "yyyyyy",
+	"password" : "12345678",
+	"empType" : "PERMENANT",
+	"email" : "maha@xyz.com",
+	"designation" : "SOFTWARE_DEVELOPER"
+}
