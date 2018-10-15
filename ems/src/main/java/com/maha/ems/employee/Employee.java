@@ -2,13 +2,16 @@ package com.maha.ems.employee;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -21,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maha.ems.enums.DesignationEnum;
 import com.maha.ems.enums.EmpType;
+import com.maha.ems.task.Task;
 
 @Entity
 @Table(name="employee")
@@ -67,6 +71,10 @@ public class Employee implements Serializable{
 	@OneToOne(mappedBy = "employee",cascade = CascadeType.ALL)
 	@JsonIgnore
 	private EmpDetails empDetails;
+	
+	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonIgnore
+    private Set<Task> tasks;
 	
 	@Column(name = "created_date")
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
@@ -190,6 +198,14 @@ public class Employee implements Serializable{
 
 	public void setCreatedBy(int createdBy) {
 		this.createdBy = createdBy;
+	}
+
+	public Set<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(Set<Task> tasks) {
+		this.tasks = tasks;
 	}
 
 	@Override

@@ -7,6 +7,14 @@ export default Controller.extend({
 	designation:"",
 	empType:"",
 	eid:undefined,
+	/*init:function(){
+		this.set("firstName","");
+		this.set("lastName","");
+		this.set("email","");
+		this.set("designation","");
+		this.set("empType","");
+		this.set("eid",undefined);
+	},*/
 	actions:{
 		addEmployee(){
 			let self=this;
