@@ -8,13 +8,13 @@ export default Controller.extend({
 	actions:{
 		saveEmpDetails(){
 			let self=this;
-			let empDetails=this.store.createRecord('emp-details',{
+			let empdetails=this.store.createRecord('empdetails',{
 				phoneNo:self.get("phoneNo"),
 				address:self.get("address"),
 				dateOfBirth:self.get("dateOfBirth"),
 				langKnown:self.get("langKnown")
 			});
-			empDetails.save().then(function() {
+			empdetails.save().then(function() {
 				self.transitionToRoute('employee');
 			}, function(resp) {
 				if (resp.responseJSON) {

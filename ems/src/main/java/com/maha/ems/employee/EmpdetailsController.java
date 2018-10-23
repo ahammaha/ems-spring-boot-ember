@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/employees/{empid}")
 @CrossOrigin
-public class EmpDetailsController {
+public class EmpdetailsController {
 	
 	@Autowired 
-	private EmpDetailsService empDetailsService;
+	private EmpdetailsService empDetailsService;
 	
 	@Autowired
 	private EmployeeService employeeService;
@@ -24,12 +24,12 @@ public class EmpDetailsController {
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	
 	@RequestMapping("/empdetails")
-	public EmpDetails getEmpDetails(@PathVariable("empid") int empId) {
+	public Empdetails getEmpDetails(@PathVariable("empid") int empId) {
 		return empDetailsService.getEmpDetails(empId);
 	}
 
 	@RequestMapping(method=RequestMethod.POST,value="/empdetails")
-	public EmpDetails addEmpDetails(@RequestBody EmpDetails empDetails, @PathVariable("empid") int empId) {
+	public Empdetails addEmpDetails(@RequestBody Empdetails empDetails, @PathVariable("empid") int empId) {
 		empDetails.setEmployee(employeeService.getEmployeeById(empId));
 		return empDetailsService.addEmpDetails(empDetails);
 	}

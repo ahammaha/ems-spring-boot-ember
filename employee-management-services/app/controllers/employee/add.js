@@ -7,28 +7,32 @@ export default Controller.extend({
 	designation:"",
 	empType:"",
 	eid:undefined,
-	/*init:function(){
-		this.set("firstName","");
-		this.set("lastName","");
-		this.set("email","");
-		this.set("designation","");
-		this.set("empType","");
-		this.set("eid",undefined);
-	},*/
+	phoneNo:undefined,
+	address:"",
+	dateOfBirth:undefined,
+	langKnown:'',
 	actions:{
 		addEmployee(){
 			let self=this;
 			
-			let emp=this.store.createRecord('employee',{
+			let empdetailsObj=this.store.createRecord('empdetails',{
 				firstName:self.get("firstName"),
 				lastName:self.get("lastName"),
-				email:self.get("email"),
 				designation:self.get("designation"),
-				empType:self.get("empType")
-				//password:self.get("password")
+				empType:self.get("empType"),
+				phoneNo:self.get("phoneNo"),
+				address:self.get("address"),
+				dateOfBirth:self.get("dateOfBirth"),
+				langKnown:self.get("langKnown")
 			});
-			emp.save().then(function() {
-				self.transitionToRoute('employee.emp-details');
+
+			
+			let emp=this.store.createRecord('employee',{
+				email:self.get("email"),
+				empdetails:empdetailsObj
+			});
+			emp.save().then(function(respData) {
+				self.transitionToRoute('employee.disp-employee',respData);
 			}, function(resp) {
 				if (resp.responseJSON) {
 					self.get('model').set('errors', resp.responseJSON.errors);

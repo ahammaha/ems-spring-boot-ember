@@ -1,10 +1,14 @@
 
 {{employee-form
   empId=model.id
-  firstName=model.firstName
-  lastName=model.lastName
+  firstName=model.empdetails.firstName
+  lastName=model.empdetails.lastName
   email=model.email
-  designation=model.designation
-  empType=model.empType
+  designation=model.empdetails.designation
+  empType=model.empdetails.empType
+  phoneNo=model.empdetails.phoneNo
+  address=model.empdetails.address
+  dateOfBirth=model.empdetails.dateOfBirth
+  langKnown=model.empdetails.langKnown
   submit=(action "updateEmployee")
 }}

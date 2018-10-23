@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.maha.ems.exception.EmployeeNotFoundException;
+
 @RestController
 @CrossOrigin
 @RequestMapping("api")
@@ -21,6 +23,9 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 	
+	@Autowired
+	private EmpdetailsService empDetailsService;
+	
 	@RequestMapping("/employees")
 	public List<Employee> getEmployees(){
 		return employeeService.getEmployees();
@@ -28,21 +33,37 @@ public class EmployeeController {
 	
 	@RequestMapping("/employees/{id}")
 	public Employee getEmployee(@PathVariable("id") int empId) {
-		return employeeService.getEmployeeById(empId);
+		try {
+			return employeeService.getEmployeeById(empId);
+		}catch(Exception e) {
+			throw new EmployeeNotFoundException("There is no employee with such ID");
+		}
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/employees")
 	public Employee addEmployee(@Valid @RequestBody Employee employee) {
 		LocalDate currDate=LocalDate.now();
-		employee.setDateOfJoining(currDate);
 		employee.setCreatedDate(currDate);
 		employee.setLastModifiedDate(currDate);
-		return employeeService.addEmployee(employee);
+		employee.getEmpdetails().setDateOfJoining(currDate);
+		employee.getEmpdetails().setEmployee(employee);
+		employee.getEmpdetails().setCreatedDate(currDate);
+		employee.getEmpdetails().setLastModifiedDate(currDate);
+		employee=employeeService.addEmployee(employee);
+		return employee;
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT,value="/employees/{id}")
 	public Employee updateEmployee(@RequestBody Employee employee,@PathVariable("id") int empId) {
-		employee.setid(empId);
+		LocalDate currDate=LocalDate.now();
+		Employee empRecord=employeeService.getEmployeeById(empId);
+		employee.setId(empId);
+		employee.getEmpdetails().setEmployee(employee);
+		employee.setCreatedBy(empRecord.getCreatedBy());
+		employee.setCreatedDate(empRecord.getCreatedDate());
+		employee.setLastModifiedDate(currDate);
+		employee.getEmpdetails().setLastModifiedDate(currDate);
+		employee.getEmpdetails().setCreatedDate(empRecord.getEmpdetails().getCreatedDate());
 		return employeeService.updateEmployee(employee);
 	}
 	

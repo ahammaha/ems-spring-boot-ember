@@ -4,16 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmpDetailsService {
+public class EmpdetailsService {
 
 	@Autowired
-	private EmpDetailsRepository empDetailsRepository;
+	private EmpdetailsRepository empDetailsRepository;
 
-	public EmpDetails getEmpDetails(int empId) {
+	public Empdetails getEmpDetails(int empId) {
 		return empDetailsRepository.findByEmployeeId(empId);
 	}
 
-	public EmpDetails addEmpDetails(EmpDetails empDetails) {
+	public Empdetails addEmpDetails(Empdetails empDetails) {
 		return empDetailsRepository.save(empDetails);
 	}
 	

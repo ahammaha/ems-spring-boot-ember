@@ -1,20 +1,43 @@
 {{#link-to "employee.index"}}Back{{/link-to}}
 <article class="listing list-detail">
+  
   <div class="heading-padding">
-    <h3>{{model.firstName}} {{model.lastName}} : </h3>
+    <h3>{{model.empdetails.firstName}} {{model.empdetails.lastName}} : </h3>
     <span>{{#link-to "employee.edit" model class="button right-most"}}Edit{{/link-to}}</span>
   </div>
+
   <div class="val-padding">
-    Designation : {{print-designation model.designation}}
-  </div>  
+    Date Of Birth : {{model.empdetails.dateOfBirth}}
+  </div>
+
   <div class="val-padding">
     Email : {{model.email}}
   </div>
+
   <div class="val-padding">
-    Date Of Joining : {{model.dateOfJoining}}
+    Designation : {{print-designation model.empdetails.designation}}
   </div>
+
   <div class="val-padding">
-    Job Type : {{emp-type model.empType}}
+    Job Type : {{emp-type model.empdetails.empType}}
+  </div>  
+
+  <div class="val-padding">
+    Date Of Joining : {{model.empdetails.dateOfJoining}}
   </div>
+
+  <div class="val-padding">
+    Address : {{model.empdetails.address}}
+  </div>  
+  
+  <div class="val-padding">
+    Phone No : {{model.empdetails.phoneNo}}
+  </div>
+
+  <div class="val-padding">
+    Lang Known : {{model.empdetails.langKnown}}
+  </div>
+
+
 </article>
 {{outlet}}

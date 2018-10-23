@@ -1,12 +1,9 @@
 import DS from 'ember-data';
+//import empdetails from 'employee-management-services/models/empdetails';
 
 export default DS.Model.extend({
 	empId : DS.attr(),
-	firstName : DS.attr(),
-	lastName : DS.attr(),
-	email : DS.attr(),
 	password : DS.attr(),
-	empType : DS.attr(),
-	designation: DS.attr(),
-	dateOfJoining: DS.attr()
+	email : DS.attr(),
+	empdetails : DS.belongsTo("empdetails") 
 });

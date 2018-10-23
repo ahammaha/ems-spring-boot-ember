@@ -3,39 +3,60 @@ package com.maha.ems.employee;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+//import javax.validation.constraints.NotEmpty;
+//import javax.validation.constraints.Pattern;
+//simport javax.validation.constraints.Size;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.maha.ems.enums.DesignationEnum;
+import com.maha.ems.enums.EmpType;
 
 @Entity
-@Table(name="emp_details")
-public class EmpDetails implements Serializable{
+@Table(name="empdetails")
+public class Empdetails implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+	@Column(name = "fname",length=30)
+	@Size(min=2,max=30,message="First Name should be 2 to 30 characters long")
+	@NotEmpty(message="First Name can not be empty")
+	private String firstName;
+
+	@Column(name = "lname",length=30)
+	@NotEmpty(message="Last Name can not be empty")
+	private String lastName;
+
+	@Column(name = "emp_type",length=20)
+	private EmpType empType; // permanent or contract
+	
+	@Column(name = "date_of_joining")
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	private LocalDate dateOfJoining;
+
+	@Column(name = "designation",length=30)
+	private DesignationEnum designation;
+	
 	@Column(name="phone_no",length=10)
-	@NotEmpty(message="Phone number can not be empty")
-	@Pattern(regexp="(^$|[0-9]{10})",message="Enter a valid number")
 	private long phoneNo;
 	
 	@Column(name="address",length=100)
@@ -45,13 +66,12 @@ public class EmpDetails implements Serializable{
 	@Column(name="date_of_birth")
 	@DateTimeFormat(pattern="dd-MM-yyy")
 	@JsonFormat(pattern = "dd-MM-yyyy")
-	@NotEmpty(message="Date of birth can not be empty")
 	private LocalDate dateOfBirth;
 	
 	@Column(name="lang_known",length=50)
 	private String langKnown;
 	
-	@OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+	@OneToOne(fetch=FetchType.LAZY, optional=false)
 	@JoinColumn(name="emp_id",nullable = false)
 	@JsonIgnore
 	private Employee employee;
@@ -66,24 +86,52 @@ public class EmpDetails implements Serializable{
 	@JsonIgnore
 	private LocalDate lastModifiedDate;
 
-	public EmpDetails() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	public EmpDetails(/*@Pattern(regexp = "(^$|[0-9]{10})", message = "Enter a valid number") */long phoneNo, String address,
-			LocalDate dateOfBirth, String langKnown) {
-		this.phoneNo = phoneNo;
-		this.address = address;
-		this.dateOfBirth = dateOfBirth;
-		this.langKnown = langKnown;
-	}
-	
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public EmpType getEmpType() {
+		return empType;
+	}
+
+	public void setEmpType(EmpType empType) {
+		this.empType = empType;
+	}
+
+	public LocalDate getDateOfJoining() {
+		return dateOfJoining;
+	}
+
+	public void setDateOfJoining(LocalDate dateOfJoining) {
+		this.dateOfJoining = dateOfJoining;
+	}
+
+	public DesignationEnum getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(DesignationEnum designation) {
+		this.designation = designation;
 	}
 
 	public long getPhoneNo() {
@@ -142,11 +190,16 @@ public class EmpDetails implements Serializable{
 		this.lastModifiedDate = lastModifiedDate;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
-		return "EmpDetails [id=" + id + ", phoneNo=" + phoneNo + ", address=" + address + ", dateOfBirth=" + dateOfBirth
-				+ ", langKnown=" + langKnown + ", employee=" + employee + "]";
+		return "EmpDetails [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", empType=" + empType
+				+ ", dateOfJoining=" + dateOfJoining + ", designation=" + designation + ", phoneNo=" + phoneNo
+				+ ", address=" + address + ", dateOfBirth=" + dateOfBirth + ", langKnown=" + langKnown + ", employee="
+				+ employee + ", createdDate=" + createdDate + ", lastModifiedDate=" + lastModifiedDate + "]";
 	}
-	
 	
 }
