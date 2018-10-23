@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
@@ -59,6 +60,7 @@ public class Employee implements Serializable{
 	private int createdBy;
 	
 	@OneToOne(mappedBy = "employee",cascade = CascadeType.ALL)
+	@Valid
 	private Empdetails empdetails;
 	
 	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

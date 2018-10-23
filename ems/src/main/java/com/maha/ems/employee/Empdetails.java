@@ -16,6 +16,7 @@ import javax.persistence.Table;
 //import javax.validation.constraints.Pattern;
 //simport javax.validation.constraints.Size;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -57,7 +58,10 @@ public class Empdetails implements Serializable{
 	private DesignationEnum designation;
 	
 	@Column(name="phone_no",length=10)
-	private long phoneNo;
+	@NotEmpty(message="Phone number can not be empty")
+	@Size(min=10,max=10,message="Phone number should of length 10")
+	@Pattern(regexp="(^$|[0-9]{10})",message="Enter a valid number")
+	private String phoneNo;
 	
 	@Column(name="address",length=100)
 	@NotEmpty(message="Address can not be empty")
@@ -66,6 +70,7 @@ public class Empdetails implements Serializable{
 	@Column(name="date_of_birth")
 	@DateTimeFormat(pattern="dd-MM-yyy")
 	@JsonFormat(pattern = "dd-MM-yyyy")
+	@NotNull(message="Date of birth can not be empty")
 	private LocalDate dateOfBirth;
 	
 	@Column(name="lang_known",length=50)
@@ -134,11 +139,11 @@ public class Empdetails implements Serializable{
 		this.designation = designation;
 	}
 
-	public long getPhoneNo() {
+	public String getPhoneNo() {
 		return phoneNo;
 	}
 
-	public void setPhoneNo(long phoneNo) {
+	public void setPhoneNo(String phoneNo) {
 		this.phoneNo = phoneNo;
 	}
 
