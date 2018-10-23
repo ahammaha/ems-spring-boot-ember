@@ -1,6 +1,5 @@
 package com.maha.ems.employee;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,10 +31,7 @@ public class EmployeeService {
 	}
 
 	public Employee updatePassword(int empId, Employee employee) {
-		Employee emp=getEmployeeById(empId);
-		emp.setPassword(employee.getPassword());
-		emp.setLastModifiedDate(LocalDate.now());
-		employeeRepository.save(emp);
+		employeeRepository.save(employee);
 		return null;
 	}
 

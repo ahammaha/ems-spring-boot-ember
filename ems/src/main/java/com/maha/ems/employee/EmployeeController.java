@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +21,8 @@ import com.maha.ems.exception.EmployeeNotFoundException;
 @CrossOrigin
 @RequestMapping("api")
 public class EmployeeController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 	
 	@Autowired
 	private EmployeeService employeeService;
@@ -42,7 +46,8 @@ public class EmployeeController {
 		try {
 			return employeeService.getEmployeeById(empId);
 		}catch(Exception e) {
-			throw new EmployeeNotFoundException("There is no employee with such ID");
+			logger.error("There is no employee with such employee Id");
+			throw new EmployeeNotFoundException("There is no employee with such employee Id");
 		}
 	}
 	
@@ -54,16 +59,16 @@ public class EmployeeController {
 	@RequestMapping(method=RequestMethod.POST, value="/employees")
 	public Employee addEmployee(@Valid @RequestBody Employee employee) {
 		LocalDate currDate=LocalDate.now();
-		employee.setCreatedDate(currDate);
-		employee.setLastModifiedDate(currDate);
 		try {
+			employee.setCreatedDate(currDate);
+			employee.setLastModifiedDate(currDate);
 			employee.getEmpdetails().setDateOfJoining(currDate);
 			employee.getEmpdetails().setEmployee(employee);
 			employee.getEmpdetails().setCreatedDate(currDate);
 			employee.getEmpdetails().setLastModifiedDate(currDate);
 			employee = employeeService.addEmployee(employee);
 		} catch(Exception e){
-			System.out.println("Exception : "+e);
+			logger.error("Error occurred while saving employee record : "+e);
 		}
 		return employee;
 	}
@@ -76,25 +81,70 @@ public class EmployeeController {
 	@RequestMapping(method=RequestMethod.PUT,value="/employees/{id}")
 	public Employee updateEmployee(@RequestBody Employee employee,@PathVariable("id") int empId) {
 		LocalDate currDate=LocalDate.now();
-		Employee empRecord=employeeService.getEmployeeById(empId);
-		employee.setId(empId);
-		employee.getEmpdetails().setEmployee(employee);
-		employee.setCreatedBy(empRecord.getCreatedBy());
-		employee.setCreatedDate(empRecord.getCreatedDate());
-		employee.setLastModifiedDate(currDate);
-		employee.getEmpdetails().setLastModifiedDate(currDate);
-		employee.getEmpdetails().setCreatedDate(empRecord.getEmpdetails().getCreatedDate());
-		return employeeService.updateEmployee(employee);
+		Employee empRecord = null;
+		try {
+			empRecord=employeeService.getEmployeeById(empId);
+		}catch(Exception e) {
+			logger.error("No such employee exists with such employee Id");
+			throw new EmployeeNotFoundException("No such employee exists with such employee Id");
+		}
+		if (employee != null) {
+			employee.setId(empId);
+			employee.setLastModifiedDate(currDate);
+			if (employee.getEmpdetails() != null) {
+				employee.getEmpdetails().setEmployee(employee);
+				employee.getEmpdetails().setLastModifiedDate(currDate);
+				employee.getEmpdetails().setCreatedDate(empRecord.getEmpdetails().getCreatedDate());
+			}
+			employee.setCreatedBy(empRecord.getCreatedBy());
+			employee.setCreatedDate(empRecord.getCreatedDate());
+			try {
+				employee = employeeService.updateEmployee(employee);
+			} catch (Exception e) {
+				logger.error("Employee record could not be updated. :" + e);
+			}
+		}
+		return employee;
 	}
 	
+	/*
+	 * api to set or reset password this would be useful when login module is implemented
+	 * @param empId
+	 * @return employee record with the updated password
+	 */
 	@RequestMapping(method=RequestMethod.PUT,value="/employees/{id}/update-pwd")
 	public Employee updatePassword(@RequestBody Employee employee,@PathVariable("id") int empId) {
-		return employeeService.updatePassword(empId,employee);
+		Employee employeeRecord = null;
+		try {
+			employeeRecord = employeeService.getEmployeeById(empId);
+		} catch (Exception e) {
+			logger.error("No such employee exists with such employee Id");
+			throw new EmployeeNotFoundException("No such employee exists with such employee Id");
+		}
+		if(employeeRecord!=null && employee!=null) {
+			employeeRecord.setPassword(employee.getPassword());
+			employeeRecord.setLastModifiedDate(LocalDate.now());
+		}
+		try {
+			employee = employeeService.updatePassword(empId, employeeRecord);
+		} catch (Exception e) {
+			logger.error("Password could not be updated for the employee record with empId:"+empId);
+		}
+		return employee;
 	}
 	
+	/*
+	 * api to delete employee as of now we have direct deletion 
+	 * in future should implement 
+	 */
 	@RequestMapping(method=RequestMethod.DELETE,value="/employees/{id}")
 	public String deleteEmployee(@PathVariable("id") int empId) {
-		employeeService.deleteEmployeeById(empId);
+		try {
+			employeeService.deleteEmployeeById(empId);
+		} catch (Exception e) {
+			logger.error("Exception arised while deleting the employee record with empId : "+empId);
+			return "Error occurred while deleting employee record.";
+		}
 		return "Successfully deleted...";
 	}
 }
