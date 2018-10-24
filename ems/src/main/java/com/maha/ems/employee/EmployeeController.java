@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,14 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.maha.ems.exception.EmployeeNotFoundException;
 
 @RestController
-@CrossOrigin
-@RequestMapping("api")
+@CrossOrigin(origins="http://localhost:4200/")
+//@RequestMapping("api")
 public class EmployeeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 	
 	@Autowired
 	private EmployeeService employeeService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	/*
 	 * api to get all employees
@@ -122,8 +126,10 @@ public class EmployeeController {
 			throw new EmployeeNotFoundException("No such employee exists with such employee Id");
 		}
 		if(employeeRecord!=null && employee!=null) {
-			employeeRecord.setPassword(employee.getPassword());
+			employeeRecord.setPassword(passwordEncoder.encode(employee.getPassword()));
 			employeeRecord.setLastModifiedDate(LocalDate.now());
+			System.out.println("=======================================");
+			System.out.println(passwordEncoder.encode(employee.getPassword()));
 		}
 		try {
 			employee = employeeService.updatePassword(empId, employeeRecord);
