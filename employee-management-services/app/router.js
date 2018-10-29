@@ -12,7 +12,10 @@ Router.map(function() {
     this.route('disp-employee',{path: '/:employee_id'});
     this.route('empdetails');
     this.route('edit',{path: '/:employee_id/edit'});
+    this.route('tasks',{path: '/:employee_id/tasks'});
+    this.route('addtask',{path: '/:employee_id/tasks'});
   });
+  this.route('login');
 });
 
 export default Router;

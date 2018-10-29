@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.maha.ems.exception.EmployeeNotFoundException;
 
 @RestController
-@CrossOrigin(origins="http://localhost:4200/")
-//@RequestMapping("api")
+@CrossOrigin
 public class EmployeeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
@@ -128,8 +127,6 @@ public class EmployeeController {
 		if(employeeRecord!=null && employee!=null) {
 			employeeRecord.setPassword(passwordEncoder.encode(employee.getPassword()));
 			employeeRecord.setLastModifiedDate(LocalDate.now());
-			System.out.println("=======================================");
-			System.out.println(passwordEncoder.encode(employee.getPassword()));
 		}
 		try {
 			employee = employeeService.updatePassword(empId, employeeRecord);
