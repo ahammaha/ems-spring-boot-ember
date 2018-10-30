@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/employees/{empid}")
+@RequestMapping("/employees/{empid}")
 public class TaskController {
 	
 	@Autowired
@@ -20,12 +20,22 @@ public class TaskController {
 	
 	@RequestMapping("/tasks")
 	public List<Task> getTasksByEmpId(@PathVariable("empid") int empId) throws Exception{
-		return taskService.getTasksByEmpId(empId);
+		try {
+			return taskService.getTasksByEmpId(empId);
+		}catch(Exception e) {
+			new Exception("Tasks can not be fetched");
+		}
+		return null;
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/tasks")
 	public Task addTask(@RequestBody Task task, @PathVariable("empid") int empId) throws Exception {
-		return taskService.addTask(empId,task);
+		try {
+			return taskService.addTask(empId,task);
+		}catch(Exception e) {
+			new Exception("Task is not added : "+task);
+		}
+		return null;
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT,value="/tasks/{taskid}")

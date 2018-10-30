@@ -1,0 +1,38 @@
+
+<article class="listing list-detail">
+  {{#if empId}}
+    <h3>Edit the details</h3>
+  {{else}}
+    <h3>Enter the details</h3>
+  {{/if}}
+  <form>
+
+    <div class="val-padding">
+      Name : 
+      {{input type="text" value=name placeholder="Enter task name"}}
+      {{#if model.errors}}
+        {{model.errors}}
+      {{/if}}
+    </div>
+
+    <div class="val-padding">
+      Description : 
+      {{input type="text" value=description placeholder="Enter description"}}
+    </div>
+
+    <div class="val-padding">
+      Start date : {{input type="text" value=startDate placeholder="dd-mm-yyyy"}}
+    </div>
+
+    <div class="val-padding">
+      End date : {{input type="text" value=endDate placeholder="dd-mm-yyyy"}}
+    </div>
+
+    <div class="val-padding">
+      <button class="button" {{action "addTask"}}>Add Task</button>
+    </div>
+
+  </form>
+</article>
+
+{{outlet}}

@@ -5,6 +5,10 @@ export default DS.JSONSerializer.extend(DS.EmbeddedRecordsMixin, {
     empdetails: {
       serialize: 'records',
       deserialize: 'records'
+    },
+    task: { 
+      deserialize: "records",
+      serialize: "records"
     }
   }
 });

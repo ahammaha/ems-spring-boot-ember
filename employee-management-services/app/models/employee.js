@@ -5,5 +5,6 @@ export default DS.Model.extend({
 	empId : DS.attr(),
 	password : DS.attr(),
 	email : DS.attr(),
-	empdetails : DS.belongsTo("empdetails") 
+	empdetails : DS.belongsTo("empdetails"),
+	tasks : DS.hasMany('task')
 });

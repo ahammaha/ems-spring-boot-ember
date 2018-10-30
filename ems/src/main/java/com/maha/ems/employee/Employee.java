@@ -139,10 +139,4 @@ public class Employee implements Serializable{
 		return serialVersionUID;
 	}
 
-	@Override
-	public String toString() {
-		return "Employee [id=" + id + ", email=" + email + ", password=" + password + ", createdDate=" + createdDate
-				+ ", lastModifiedDate=" + lastModifiedDate + ", createdBy=" + createdBy + ", empDetails=" + empdetails
-				+ ", tasks=" + tasks + "]";
-	}
 }

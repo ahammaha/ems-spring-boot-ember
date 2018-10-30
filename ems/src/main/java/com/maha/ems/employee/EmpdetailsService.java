@@ -16,15 +16,4 @@ public class EmpdetailsService {
 	public Empdetails addEmpDetails(Empdetails empDetails) {
 		return empDetailsRepository.save(empDetails);
 	}
-	
-	/*
-	public void deleteEmpDetails(int empId) {
-		empDetailsRepository.deleteEmpDetailsByEmpId(empId);
-	}*/
-	
-	/*
-	public void deleteEmpDetailsById(int id) {
-		empDetailsRepository.deleteById(id);
-	}
-	*/
 }

@@ -26,11 +26,19 @@ export default Controller.extend({
 				langKnown:self.get("langKnown")
 			});
 
-			
 			let emp=this.store.createRecord('employee',{
 				email:self.get("email"),
-				empdetails:empdetailsObj
+				empdetails:empdetailsObj,
 			});
+
+			let task=this.store.createRecord('task',{
+				name:"Create Project",
+				description:"Create an ember project",
+				startDate:"30-10-2018"
+			});
+
+			emp.get("tasks").pushObject(task);
+
 			emp.save().then(function(respData) {
 				self.transitionToRoute('employee.disp-employee',respData);
 			}, function(resp) {
