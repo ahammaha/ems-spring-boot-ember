@@ -39,10 +39,13 @@
   </div>
 
   <div class="task-button">
-    {{#link-to "employee.tasks" model class="button"}}
+
+    <!-- When you send whole record ie) model in link-to then it wont call model hook in the route but if you send only id then model hook gets called -->
+
+    {{#link-to "employee.tasks" model.id class="button"}}
       List Task(s)
     {{/link-to}}
-    {{#link-to "employee.addtask" model class="button"}}
+    {{#link-to "employee.addtask" model.id class="button"}}
       Add Task
     {{/link-to}}
   </div>
