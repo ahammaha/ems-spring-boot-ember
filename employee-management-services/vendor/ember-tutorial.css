@@ -355,3 +355,39 @@ p {
     top: 0;
     right:0;
 }
+
+.task-button{
+    display: inline-block;
+}
+
+
+.tasks-disp-table>tr{
+    padding:5px;
+    text-align: center;
+}
+
+.tasks-disp-table th,.tasks-disp-table td{
+    border-bottom: 1px solid black;
+    padding: 10px;
+}
+
+.tasks-disp-table>tr>th{
+    background-color: #36454F;
+    color: #fff;
+}
+
+.tasks-disp-table tr>td:hover{
+    background-color: grey !important;
+}
+
+.tasks-disp-table tr:nth-child(even) {
+    background-color: LightGray;
+}
+
+.tasks-disp-table tr:nth-child(odd) {
+    background-color: #ece9e9;
+}
+
+.table-responsive{
+    overflow-x:auto;
+}

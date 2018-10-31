@@ -1,13 +1,23 @@
 {{#if model.length}}
-  Assigned Tasks : 
-  <ul>
-    {{#each model as |task|}}
-      <li>
-        {{task.name}} -------
-        {{task.description}}
-      </li>
-    {{/each}}
-  </ul>
+  Assigned Tasks {{get-emp-name model}}: 
+  <div class="table-responsive">
+    <table class="tasks-disp-table">
+      <tr>
+        <th>Task Name</th>
+        <th>Description</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+      </tr>
+      {{#each model as |task|}}
+        <tr>
+          <td>{{task.name}}</td>
+          <td>{{task.description}}</td>
+          <td>{{task.startDate}}</td>
+          <td>{{task.endDate}}</td>
+        </tr>
+      {{/each}}
+    </table>
+  </div>
 {{else}}
   No tasks created
 {{/if}}
