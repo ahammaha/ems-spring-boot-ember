@@ -5,8 +5,9 @@ export default Route.extend({
 		return this.store.findAll('task',{
 			adapterOptions: {
 				empId: params.employee_id
-			}/*,
-			include: 'employee,employee.firstName'*/
+			}
+			/*reload: true */
+			/*include: 'employee,employee.firstName'*/
 		});
 
 	}
