@@ -1,1 +1,14 @@
+{{#if model.length}}
+  Assigned Tasks : 
+  <ul>
+    {{#each model as |task|}}
+      <li>
+        {{task.name}} -------
+        {{task.description}}
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  No tasks created
+{{/if}}
 {{outlet}}
