@@ -20,7 +20,7 @@ export default Controller.extend({
 			});
 
 			task.save().then(function(resp){
-				self.transitionToRoute("employee.tasks",resp);
+				self.transitionToRoute("employee.tasks",self.get("empId"));
 			},function(respErr){
 				if (respErr.responseJSON) {
 					self.get('model').set('errors', respErr.responseJSON.errors);
