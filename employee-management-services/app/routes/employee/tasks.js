@@ -12,8 +12,9 @@ export default Route.extend({
 			/*include: 'employee,employee.firstName'*/
 		});
 	},
-	setupController(controller){
+	setupController(controller,model){
 		let empId=this.get("empId");
 		controller.set("empId",empId);
+		controller.set("model",model);
 	}
 });

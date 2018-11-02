@@ -22,13 +22,11 @@
       </table>
     </div>
   {{else}}
-    <div>
-      <div class="center-align">
-        <h3>No tasks created</h3>
-        {{#link-to "employee.addtask" empId}}
-          <h4>Create Task</h4>
-        {{/link-to}}
-      </div>
+    <div class="center-align">
+      <h3>No tasks created</h3>
+      {{#link-to "employee.addtask" empId}}
+        <h4>Create Task</h4>
+      {{/link-to}}
     </div>
   {{/if}}
 </article>
