@@ -5,11 +5,12 @@ export default Controller.extend({
 	description:"",
 	startDate:"",
 	endDate:"",
+	empId:undefined,
 	actions:{
 		addTask(){
 			let self=this;
-			let employee=this.store.peekRecord("employee",1);
-			
+			let employee=this.store.peekRecord("employee",this.get("empId"));
+
 			let task=this.store.createRecord("task",{
 				name:self.get("name"),
 				description:self.get("description"),
