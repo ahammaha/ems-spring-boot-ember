@@ -19,11 +19,21 @@ public class EmpdetailsController {
 	@Autowired
 	private EmployeeService employeeService;
 	
+	/*
+	 * api to get empdetails records
+	 * @param empId
+	 * @return empDetails record that belongs to empId
+	 */
 	@RequestMapping("/empdetails")
 	public Empdetails getEmpDetails(@PathVariable("empid") int empId) {
 		return empDetailsService.getEmpDetails(empId);
 	}
 
+	/*
+	 * api to add employee details record
+	 * @param empDetails, empId
+	 * @return empDetails object after saving in database
+	 */
 	@RequestMapping(method=RequestMethod.POST,value="/empdetails")
 	public Empdetails addEmpDetails(@RequestBody Empdetails empDetails, @PathVariable("empid") int empId) {
 		empDetails.setEmployee(employeeService.getEmployeeById(empId));

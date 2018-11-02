@@ -1,24 +1,35 @@
-{{#if model.length}}
-  Assigned Tasks : 
-  <div class="table-responsive">
-    <table class="tasks-disp-table">
-      <tr>
-        <th>Task Name</th>
-        <th>Description</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-      </tr>
-      {{#each model as |task|}}
+{{#link-to "employee.disp-employee" empId}}Back{{/link-to}}
+
+<article class="listing list-detail">
+  {{#if model.length}}
+    Assigned Tasks : 
+    <div class="table-responsive">
+      <table class="tasks-disp-table">
         <tr>
-          <td>{{task.name}}</td>
-          <td>{{task.description}}</td>
-          <td>{{task.startDate}}</td>
-          <td>{{task.endDate}}</td>
+          <th>Task Name</th>
+          <th>Description</th>
+          <th>Start Date</th>
+          <th>End Date</th>
         </tr>
-      {{/each}}
-    </table>
-  </div>
-{{else}}
-  No tasks created
-{{/if}}
+        {{#each model as |task|}}
+          <tr>
+            <td>{{task.name}}</td>
+            <td>{{task.description}}</td>
+            <td>{{task.startDate}}</td>
+            <td>{{task.endDate}}</td>
+          </tr>
+        {{/each}}
+      </table>
+    </div>
+  {{else}}
+    <div>
+      <div class="center-align">
+        <h3>No tasks created</h3>
+        {{#link-to "employee.addtask" empId}}
+          <h4>Create Task</h4>
+        {{/link-to}}
+      </div>
+    </div>
+  {{/if}}
+</article>
 {{outlet}}

@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -33,14 +35,17 @@ public class Task implements Serializable{
 	private int id;
 
 	@Column(name="name")
+	@NotEmpty(message="Task Name can not be empty")
 	private String name;
 	
 	@Column(name="description")
+	@NotEmpty(message="Task description can not be empty")
 	private String description;
 	
 	@Column(name="start_date")
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	@JsonFormat(pattern = "dd-MM-yyyy")
+	@NotNull(message="Start date can not be empty")
 	private LocalDate startDate;
 	
 	@Column(name="end_date")
