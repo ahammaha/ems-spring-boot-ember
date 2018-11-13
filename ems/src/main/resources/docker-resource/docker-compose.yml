@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+
+  database:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: maha
+      MYSQL_DATABASE: ems
+      MYSQL_USER: maha
+      MYSQL_PASSWORD: maha
+    ports:
+      -3306:3306
