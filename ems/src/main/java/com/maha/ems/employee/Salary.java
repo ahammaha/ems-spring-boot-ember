@@ -32,7 +32,7 @@ public class Salary {
 	@JoinColumn(name="emp_id")
 	private Employee employee;
 
-	public Salary(double basicPay, double variablePay, double overallPkge) {
+	public Salary(double basicPay, double variablePay, double overallPkg) {
 		this.basicPay = basicPay;
 		this.variablePay = variablePay;
 		this.overallPkg = overallPkg;

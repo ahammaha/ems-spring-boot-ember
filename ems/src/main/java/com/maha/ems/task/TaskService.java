@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.maha.ems.employee.EmployeeRepository;
+import com.maha.ems.exception.EmployeeNotFoundException;
 
 @Service
 public class TaskService {
@@ -16,23 +17,23 @@ public class TaskService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
-	private boolean checkIfEmployeeExists(int empId) throws Exception {
+	private boolean checkIfEmployeeExists(int empId) {
 		if(!employeeRepository.existsById(empId)) {
-			throw new Exception("No such employee exists with this  ID : "+empId);
+			throw new EmployeeNotFoundException("No such employee exists with this  ID : "+empId);
 		}
 		return true;
 	}
 	
-	public List<Task> getTasksByEmpId(int empId) throws Exception{
+	public List<Task> getTasksByEmpId(int empId) {
 		checkIfEmployeeExists(empId);
 		return taskRepository.findByEmployeeId(empId);
 	}
 
-	public Task addTask(int empId, Task task) throws Exception {
+	public Task addTask(int empId, Task task) {
 		return employeeRepository.findById(empId).map(employee->{
 			task.setEmployee(employee);
 			return taskRepository.save(task);
-		}).orElseThrow(()->new Exception("No such employee exists with this ID : "+empId));
+		}).orElseThrow(()->new EmployeeNotFoundException("No such employee exists with this ID : "+empId));
 	}
 	
 	public Task updateTask(int empId, Task taskToBeUpdated, int taskId) throws Exception {

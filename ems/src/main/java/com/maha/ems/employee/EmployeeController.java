@@ -9,10 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.maha.ems.exception.EmployeeNotFoundException;
@@ -31,7 +33,7 @@ public class EmployeeController {
 	 * api to get all employees
 	 * @return list of employee records
 	 */
-	@RequestMapping("/employees")
+	@GetMapping("/employees")
 	public List<Employee> getEmployees(){
 		return employeeService.getEmployees();
 	}
@@ -41,7 +43,7 @@ public class EmployeeController {
 	 * @param empId
 	 * @return employee record
 	 */
-	@RequestMapping("/employees/{id}")
+	@GetMapping("/employees/{id}")
 	public Employee getEmployee(@PathVariable("id") int empId) {
 		try {
 			return employeeService.getEmployeeById(empId);
@@ -56,7 +58,7 @@ public class EmployeeController {
 	 * @param employee
 	 * @return employee object after saving in database
 	 */
-	@RequestMapping(method=RequestMethod.POST, value="/employees")
+	@PostMapping("/employees")
 	public Employee addEmployee(@Valid @RequestBody Employee employee) {
 		LocalDate currDate=LocalDate.now();
 		try {
@@ -78,13 +80,13 @@ public class EmployeeController {
 	 * @param employee
 	 * @return employee object after updating in database
 	 */
-	@RequestMapping(method=RequestMethod.PUT,value="/employees/{id}")
+	@PutMapping("/employees/{id}")
 	public Employee updateEmployee(@RequestBody Employee employee,@PathVariable("id") int empId) {
 		LocalDate currDate=LocalDate.now();
 		Employee empRecord = null;
 		try {
 			empRecord=employeeService.getEmployeeById(empId);
-		}catch(Exception e) {
+		}catch(Exception e) {			
 			logger.error("No such employee exists with such employee Id");
 			throw new EmployeeNotFoundException("No such employee exists with such employee Id");
 		}
@@ -98,9 +100,6 @@ public class EmployeeController {
 			}
 			employee.setCreatedBy(empRecord.getCreatedBy());
 			employee.setCreatedDate(empRecord.getCreatedDate());
-			System.out.println("================================");
-			System.out.println(employee);
-			System.out.println("================================");
 			try {
 				employee = employeeService.updateEmployee(employee);
 			} catch (Exception e) {
@@ -115,7 +114,7 @@ public class EmployeeController {
 	 * @param empId
 	 * @return employee record with the updated password
 	 */
-	@RequestMapping(method=RequestMethod.PUT,value="/employees/{id}/update-pwd")
+	@PutMapping("/employees/{id}/update-pwd")
 	public Employee updatePassword(@RequestBody Employee employee,@PathVariable("id") int empId) {
 		Employee employeeRecord = null;
 		try {
@@ -139,7 +138,7 @@ public class EmployeeController {
 	 * api to delete employee as of now we have direct deletion 
 	 * in future should implement 
 	 */
-	@RequestMapping(method=RequestMethod.DELETE,value="/employees/{id}")
+	@DeleteMapping("/employees/{id}")
 	public String deleteEmployee(@PathVariable("id") int empId) {
 		try {
 			employeeService.deleteEmployeeById(empId);
