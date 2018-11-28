@@ -6,9 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import springfox.documentation.annotations.ApiIgnore;
+
 @RestController
 @RequestMapping("/login")
 @CrossOrigin
+@ApiIgnore
 public class LoginController {
 	
 	@Autowired
@@ -18,5 +21,4 @@ public class LoginController {
 	public void login() {
 		
 	}
-	
 }
