@@ -68,7 +68,9 @@ public class Employee implements Serializable{
     private Set<Task> tasks;
 	
 	public Employee() {
-		// TODO Auto-generated constructor stub
+		/*
+		 * no arg constructor
+		 */
 	}
 
 	public int getId() {

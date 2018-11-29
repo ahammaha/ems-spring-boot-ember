@@ -6,35 +6,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.maha.ems.employee.EmployeeRepository;
+import com.maha.ems.exception.EmployeeNotFoundException;
 
 @Service
 public class TaskService {
 
 	@Autowired
 	private TaskRepository taskRepository;
-	
+
 	@Autowired
 	private EmployeeRepository employeeRepository;
-	
-	private boolean checkIfEmployeeExists(int empId) throws Exception {
-		if(!employeeRepository.existsById(empId)) {
-			throw new Exception("No such employee exists with this  ID : "+empId);
+
+	private boolean checkIfEmployeeExists(int empId) {
+		if (!employeeRepository.existsById(empId)) {
+			throw new EmployeeNotFoundException(empId);
 		}
 		return true;
 	}
-	
-	public List<Task> getTasksByEmpId(int empId) throws Exception{
+
+	public List<Task> getTasksByEmpId(int empId) {
 		checkIfEmployeeExists(empId);
 		return taskRepository.findByEmployeeId(empId);
 	}
 
-	public Task addTask(int empId, Task task) throws Exception {
-		return employeeRepository.findById(empId).map(employee->{
+	public Task addTask(int empId, Task task) {
+		return employeeRepository.findById(empId).map(employee -> {
 			task.setEmployee(employee);
 			return taskRepository.save(task);
-		}).orElseThrow(()->new Exception("No such employee exists with this ID : "+empId));
+		}).orElseThrow(() -> new EmployeeNotFoundException(empId));
 	}
-	
+
 	public Task updateTask(int empId, Task taskToBeUpdated, int taskId) throws Exception {
 		return taskRepository.findById(taskId).map(task -> {
 			task.setDescription(taskToBeUpdated.getDescription());
@@ -42,15 +43,15 @@ public class TaskService {
 			task.setStartDate(taskToBeUpdated.getStartDate());
 			task.setName(taskToBeUpdated.getName());
 			return taskRepository.save(task);
-		}).orElseThrow(()->new Exception("Update exception.. "));
+		}).orElseThrow(() -> new Exception("Update exception.. "));
 	}
-	
-	public String deleteTaskByIdAndEmpId(int empId,int taskId) throws Exception {
+
+	public String deleteTaskByIdAndEmpId(int empId, int taskId) throws Exception {
 		checkIfEmployeeExists(empId);
-		return taskRepository.findById(taskId).map(task->{
+		return taskRepository.findById(taskId).map(task -> {
 			taskRepository.delete(task);
 			return "Task deleted successfully";
-		}).orElseThrow(()->new Exception("Task not found for taskid : "+taskId));
+		}).orElseThrow(() -> new Exception("Task not found for taskid : " + taskId));
 	}
-	
+
 }

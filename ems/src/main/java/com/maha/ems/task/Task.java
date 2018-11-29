@@ -59,7 +59,6 @@ public class Task implements Serializable{
 	private Employee employee;
 
 	public Task() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Task(String name, String description, LocalDate startDate, LocalDate endDate) {

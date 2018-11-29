@@ -9,10 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.maha.ems.exception.EmployeeNotFoundException;
@@ -22,7 +24,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @CrossOrigin
-@Api(value = "Employees", description = "Operations pertaining to employees in EMS")
+@Api(value = "Operations pertaining to employees in EMS")
 public class EmployeeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
@@ -35,10 +37,8 @@ public class EmployeeController {
 	 * 
 	 * @return list of employee records
 	 */
-	@ApiOperation(value = "View the list of employees in the Organization", 
-			response = List.class, 
-			httpMethod = "GET")
-	@RequestMapping("/employees")
+	@ApiOperation(value = "View the list of employees in the Organization", response = List.class, httpMethod = "GET")
+	@GetMapping("/employees")
 	public List<Employee> getEmployees() {
 		return employeeService.getEmployees();
 	}
@@ -51,13 +51,13 @@ public class EmployeeController {
 	 * @return employee record
 	 */
 	@ApiOperation(value = "Find employee by ID", response = Employee.class, httpMethod = "GET")
-	@RequestMapping("/employees/{id}")
+	@GetMapping("/employees/{id}")
 	public Employee getEmployee(@PathVariable("id") int empId) {
 		try {
 			return employeeService.getEmployeeById(empId);
 		} catch (Exception e) {
 			logger.error("There is no employee with such employee Id");
-			throw new EmployeeNotFoundException("There is no employee with such employee Id");
+			throw new EmployeeNotFoundException(empId);
 		}
 	}
 
@@ -69,7 +69,7 @@ public class EmployeeController {
 	 * @return employee object after saving in database
 	 */
 	@ApiOperation(value = "Add an employee", response = Employee.class, httpMethod = "POST")
-	@RequestMapping(method = RequestMethod.POST, value = "/employees")
+	@PostMapping("/employees")
 	public Employee addEmployee(@Valid @RequestBody Employee employee) {
 		LocalDate currDate = LocalDate.now();
 		try {
@@ -81,7 +81,8 @@ public class EmployeeController {
 			employee.getEmpdetails().setLastModifiedDate(currDate);
 			employee = employeeService.addEmployee(employee);
 		} catch (Exception e) {
-			logger.error("Error occurred while saving employee record : " + e);
+			String logMsg = String.format("Error occurred while saving employee record : ", e);
+			logger.error(logMsg);
 		}
 		return employee;
 	}
@@ -94,7 +95,7 @@ public class EmployeeController {
 	 * @return employee object after updating in database
 	 */
 	@ApiOperation(value = "Update employee details based on ID", httpMethod = "PUT", response = Employee.class)
-	@RequestMapping(method = RequestMethod.PUT, value = "/employees/{id}")
+	@PutMapping("/employees/{id}")
 	public Employee updateEmployee(@RequestBody Employee employee, @PathVariable("id") int empId) {
 		LocalDate currDate = LocalDate.now();
 		Employee empRecord = null;
@@ -102,7 +103,7 @@ public class EmployeeController {
 			empRecord = employeeService.getEmployeeById(empId);
 		} catch (Exception e) {
 			logger.error("No such employee exists with such employee Id");
-			throw new EmployeeNotFoundException("No such employee exists with such employee Id");
+			throw new EmployeeNotFoundException(empId);
 		}
 		if (employee != null) {
 			employee.setId(empId);
@@ -132,14 +133,14 @@ public class EmployeeController {
 	 * @return employee record with the updated password
 	 */
 	@ApiOperation(value = "Update password", response = Employee.class, httpMethod = "PUT")
-	@RequestMapping(method = RequestMethod.PUT, value = "/employees/{id}/update-pwd")
+	@PutMapping("/employees/{id}/update-pwd")
 	public Employee updatePassword(@RequestBody Employee employee, @PathVariable("id") int empId) {
 		Employee employeeRecord = null;
 		try {
 			employeeRecord = employeeService.getEmployeeById(empId);
 		} catch (Exception e) {
 			logger.error("No such employee exists with such employee Id");
-			throw new EmployeeNotFoundException("No such employee exists with such employee Id");
+			throw new EmployeeNotFoundException(empId);
 		}
 		if (employeeRecord != null && employee != null) {
 			employeeRecord.setPassword(employee.getPassword());
@@ -147,7 +148,8 @@ public class EmployeeController {
 		try {
 			employee = employeeService.updatePassword(empId, employeeRecord);
 		} catch (Exception e) {
-			logger.error("Password could not be updated for the employee record with empId:" + empId);
+			String logMsg = String.format("Password could not be updated for the employee record with empId:", empId);
+			logger.error(logMsg);
 		}
 		return employee;
 	}
@@ -157,7 +159,7 @@ public class EmployeeController {
 	 * implement
 	 */
 	@ApiOperation(value = "Delete an employee by ID", response = String.class, httpMethod = "DELETE")
-	@RequestMapping(method = RequestMethod.DELETE, value = "/employees/{id}")
+	@DeleteMapping("/employees/{id}")
 	public String deleteEmployee(@PathVariable("id") int empId) {
 		try {
 			employeeService.deleteEmployeeById(empId);
